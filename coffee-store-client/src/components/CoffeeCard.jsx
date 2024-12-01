@@ -25,7 +25,7 @@ const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
                 //     icon: "success"
                 //   });
 
-                fetch(`http://localhost:5000/coffee/${_id}`, {
+                fetch(`https://coffee-store-server-tawny-nine.vercel.app/coffee/${_id}`, {
                     method: 'DELETE',
                 })
                     .then(res => res.json())
