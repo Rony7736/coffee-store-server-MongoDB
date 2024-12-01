@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
 
-    const {signInUser} = useContext(AuthContext)
+    const { signInUser } = useContext(AuthContext)
 
-    const handleSignIn = (e)=>{
+    const handleSignIn = (e) => {
         e.preventDefault()
         const form = e.target
         const email = form.email.value
@@ -13,12 +14,28 @@ const SignIn = () => {
         console.log(email, password);
 
         signInUser(email, password)
-        .then(result => {
-            console.log(result)            
-        })
-        .catch(error => {
-            console.log('ERROR', error)
-        })
+            .then(result => {
+                console.log(result.user)
+
+                // update last login time
+                const lastSignInTime = result?.user?.metadata?.lastSignInTime
+                const loginInfo = { email, lastSignInTime }
+
+                fetch(`http://localhost:5000/users`, {
+                    method: 'PATCH',
+                    headers: {
+                        'content-type' : 'application/json'
+                    },
+                    body: JSON.stringify(loginInfo)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('sign in info updated in db', data)
+                    })
+            })
+            .catch(error => {
+                console.log('ERROR', error)
+            })
     }
 
     return (
@@ -48,6 +65,7 @@ const SignIn = () => {
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary">Sign In</button>
                             </div>
+                            <p>New to coffee drinker: <Link to='/signup' className="underline">Sign Up</Link></p>
 
                         </form>
                     </div>

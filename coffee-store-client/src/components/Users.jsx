@@ -55,6 +55,7 @@ const Users = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Created At</th>
+                            <th>Last Login At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -67,6 +68,7 @@ const Users = () => {
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.createdAt}</td>
+                                    <td>{user.lastSignInTime}</td>
                                     <td className="flex gap-4">
                                         <button className="btn btn-warning">edit</button>
                                         <button onClick={() => handleUserDelete(user._id)} className="btn btn-warning">delete</button>
